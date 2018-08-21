@@ -13,13 +13,13 @@ This pipeline will update the `my-deployment` deployment with the image tagged `
             deployment: my-deployment
             repo: myorg/myrepo
             container: my-container
-            tag: 
+            tag:
                 - mytag
                 - latest
 ```
 
 Deploying containers across several deployments, eg in a scheduler-worker setup. Make sure your container `name` in your manifest is the same for each pod.
-    
+
 ```yaml
     pipeline:
         deploy:
@@ -48,7 +48,7 @@ Deploying multiple containers within the same deployment.
 
 **NOTE**: Combining multi container deployments across multiple deployments is not recommended
 
-This more complex example demonstrates how to deploy to several environments based on the branch, in a `app` namespace 
+This more complex example demonstrates how to deploy to several environments based on the branch, in a `app` namespace
 
 ```yaml
     pipeline:
@@ -96,7 +96,7 @@ This more complex example demonstrates how to deploy to several environments bas
         your-user/your-repo KUBERNETES_TOKEN eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJ...
 ```
 
-When using TLS Verification, ensure Server Certificate used by kubernetes API server 
+When using TLS Verification, ensure Server Certificate used by kubernetes API server
 is signed for SERVER url ( could be a reason for failures if using aliases of kubernetes cluster )
 
 ## How to get token
@@ -171,7 +171,15 @@ kubectl -n web get secrets
 kubectl -n web get secret/drone-deploy-token-XXXXX -o yaml | egrep 'ca.crt:|token:'
 ```
 
-## To do 
+## Development
+
+To test the behavior of the plugin, create a `.env` file (`cp .env.example .env`), fill in the correct details, then
+
+```
+docker-compose run --rm plugin
+```
+
+## To do
 
 Replace the current kubectl bash script with a go implementation.
 

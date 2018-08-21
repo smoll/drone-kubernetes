@@ -54,9 +54,15 @@ This more complex example demonstrates how to deploy to several environments bas
     pipeline:
         deploy-staging:
             image: quay.io/honestbee/drone-kubernetes
-            kubernetes_server: ${KUBERNETES_SERVER_STAGING}
-            kubernetes_cert: ${KUBERNETES_CERT_STAGING}
-            kubernetes_token: ${KUBERNETES_TOKEN_STAGING}
+            # Looks for secrets named:
+            # * ${env}_kubernetes_server
+            # * ${env}_kubernetes_token
+            # * ${env}_kubernetes_cert
+            kubernetes_env: staging
+            # Non-secret
+            kubernetes_server: 12.34.56.78
+            # Must set these secrets
+            secrets: [ staging_kubernetes_token, staging_kubernetes_cert ]
             deployment: my-deployment
             repo: myorg/myrepo
             container: my-container
@@ -69,8 +75,8 @@ This more complex example demonstrates how to deploy to several environments bas
 
         deploy-prod:
             image: quay.io/honestbee/drone-kubernetes
-            kubernetes_server: ${KUBERNETES_SERVER_PROD}
-            kubernetes_token: ${KUBERNETES_TOKEN_PROD}
+            kubernetes_env: prod
+            secrets: [ prod_kubernetes_server, prod_kubernetes_token, prod_kubernetes_cert ]
             # notice: no tls verification will be done, warning will is printed
             deployment: my-deployment
             repo: myorg/myrepo

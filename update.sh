@@ -5,11 +5,11 @@ print_secret() {
   secret=$2
 
   if [ -z ${secret} ]; then
-    echo "INFO: No $name set."
+    echo "INFO: No $name set"
   elif [ ${#secret} -ge 20 ]; then
-    echo "Using $name: ${secret:0:5}*****${secret:(-3)}"
+    echo "INFO: Using $name: ${secret:0:5}*****${secret:(-3)}"
   else
-    echo "Using $name: ${secret:0:2}*****${secret:(-1)}"
+    echo "INFO: Using $name: ${secret:0:2}*****${secret:(-1)}"
   fi
 }
 
@@ -51,6 +51,12 @@ if [ ! -z ${PLUGIN_KUBERNETES_ENV} ]; then
   if [ ! -z ${!cert_varname} ]; then
     KUBERNETES_CERT=${!cert_varname}
   fi
+fi
+
+if [ -z ${PLUGIN_TAG} ]; then
+  echo "INFO: no docker tag set"
+else
+  echo "INFO: Using docker tag: ${PLUGIN_TAG}"
 fi
 
 print_secret token $KUBERNETES_TOKEN
